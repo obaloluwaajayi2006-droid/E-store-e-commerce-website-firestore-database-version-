@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Delivery — E-store</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <link rel="stylesheet" href="delivery.css">
+  <style>
+    .page-root {
+      min-height: 100vh
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page-root d-flex">
+
+    <main class="content flex-fill">
+      <!-- Header (same as address) -->
+      <header class="topbar d-flex align-items-center justify-content-between p-3 border-bottom position-sticky top-0"
+        style="z-index: 1000; background-color: white !important;">
+        <div class="d-flex align-items-center gap-3">
+          <div class="logo d-flex align-items-center gap-2">
+            <div class="logo-mark">E</div>
+            <h4 class="m-0 text-decoration-none fs-5"><a href="/index.html"
+                style="text-decoration: none !important; color: #583BFF;"><b>E-store</b></a></h4>
+          </div>
+          <!-- <div class="search me-2">
+            <div class="input-group d-none d-md-flex">
+              <input class="form-control form-control-sm" placeholder="Search among 100+ products">
+              <button class="btn btn-sm btn-outline-secondary"><i class="bi bi-search"></i></button>
+            </div>
+          </div> -->
+        </div>
+        <div class="actions d-flex align-items-center gap-2">
+          <div id="profileImg"></div>
+          <a href="/cart/index.html" style="text-decoration: none;">
+            <button id="headerCart" class="btn btn-sm d-flex align-items-center"
+              style="background-color: #EAE7FD; position: relative;">
+              <i class="bi bi-cart-fill me-1" style="color: #583BFF;"></i>
+              <span class="d-none d-md-inline" style="color: #583BFF;">Your Cart</span>
+              <span id="cartCount" class="badge bg-danger ms-2 js-cart-quantity"
+                style="position: absolute; top: -10px; right: -10px;">0</span>
+            </button>
+          </a>
+        </div>
+      </header>
+
+      <section class="container-fluid p-4">
+        <div class="row g-4">
+          <div class="col-12 col-lg-8">
+            <a href="../adress-page/address.html" style="text-decoration: none !important;">
+              <div class="card p-3 animate-up delay mb-3">
+                <h6 class="mb-2 d-flex align-items-center gap-1"> <img src="/images/checkmark.png" alt=""
+                    width="18px">1.
+                  CUSTOMER ADDRESS
+                </h6>
+                <p class="small text-muted mb-0" id="deliveryName"></p>
+                <p class="small text-muted mb-0" id="deliveryAddress"></p>
+              </div>
+            </a>
+            <div class="card p-3 animate-up">
+              <div class="d-flex justify-content-between align-items-start">
+                <h6 class="mb-0">2. DELIVERY DETAILS</h6>
+                <a href="../adress-page/address.html" class="small">Change ›</a>
+              </div>
+              <p id="errorMessage" class="alert alert-danger text-center mt-2" style="display: none;">Please select a
+                city!</p>
+              <hr class="my-3">
+
+              <div class="mb-3">
+                <label class="form-label small text-muted">Pick-up Station <span class="text-warning">(from
+                    ₦200)</span></label>
+                <div class="card p-2 mt-2">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                      <strong id="displayCity">Select an option</strong>
+                      <div class="small text-muted">To use this option, you will need to add a pickup station near your
+                        location.</div>
+                    </div>
+                    <select id="city" class="form-select form-select-sm" style="max-width: 30%;">
+                      <option>Select an option</option>
+                      <option>Ogbomosho</option>
+                      <option>Ikeja</option>
+                      <option>Garki</option>
+                      <option>Ibadan</option>
+                      <option>Ilorin</option>
+                      <option>Oyo</option>
+                      <option>Taraba</option>
+                      <option>Abuja</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="card p-3 mt-3 animate-up delay ">
+                <div class="small text-muted" id="displayCity2">Pick-up Station</div>
+                <div class="small text-muted mt-0 mb-2">Delivery between <span id="todayDate">27 November</span> and
+                  <span id="tomDate">27 November</span>
+                </div>
+                <div class="js-delivery-items">
+
+
+                </div>
+              </div>
+
+              <div class="mt-4 text-end">
+                <button" id="confirmDelivery" class="btn btn-primary">Confirm
+                  delivery details</button>
+              </div>
+            </div>
+            <div class="card p-3 mt-3 animate-up delay-2">
+              <h6 class="mb-2">3. PAYMENT METHOD</h6>
+              <p class="small text-muted">Add delivery details to select payment method in the next step.</p>
+            </div>
+          </div>
+
+          <div class="col-12 col-lg-4">
+            <div class="card p-3 js-checkout-summary">
+
+              <h6 class="mb-3">Order Summary</h6>
+
+              <div class="d-flex justify-content-between small text-muted">
+                <span>Items (<span class="js-total-quantity">0</span>)</span>
+                <span>₦<span class="js-subtotal-price">0.00</span></span>
+              </div>
+
+              <div class="d-flex justify-content-between small text-muted mt-2">
+                <span>Shipping</span>
+                <span>Free</span>
+              </div>
+
+              <div class="d-flex justify-content-between small text-muted mt-2">
+                <span>Tax</span>
+                <span>₦<span class="js-tax-fee">0.00</span></span>
+              </div>
+
+              <hr>
+
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <strong>Total</strong>
+                <strong>₦<span class="js-total-price">0.00</span></strong>
+              </div>
+
+              <button id="confirmOrder" class="btn btn-secondary w-100 disabled">Confirm Order</button>
+
+              <a href="/index.html" class="d-block text-center small mt-2">‹ Continue Shopping</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyD7RJNXJvCyxJW59ge_30HcpDQrS3SGYCQ",
+      authDomain: "e-store-project-24928.firebaseapp.com",
+      projectId: "e-store-project-24928",
+      storageBucket: "e-store-project-24928.firebasestorage.app",
+      messagingSenderId: "108352256578",
+      appId: "1:108352256578:web:9abfa1487e033c09668bdb"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth();
+
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        console.log(user);
+        document.getElementById('profileImg').innerHTML = `<img src="${user.photoURL}" alt="Profile" style="width: 32px; height: 32px; border-radius: 50%;">
+      `
+      } else {
+        setTimeout(() => {
+          window.location.href = '/signup/index.html';
+        }, 1000)
+      }
+    });
+  </script>
+  <script type="module" src="delivery.js"></script>
+  <script type="module" src="/scripts/script.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

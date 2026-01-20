@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Payment — E-store</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <link rel="stylesheet" href="payment.css">
+  <style>
+    .page-root {
+      min-height: 100vh
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page-root d-flex">
+
+    <main class="content flex-fill">
+      <!-- Header (same as address) -->
+      <header class="topbar d-flex align-items-center justify-content-between p-3 border-bottom position-sticky top-0"
+        style="z-index: 1000; background-color: white !important;">
+        <div class="d-flex align-items-center gap-3">
+          <div class="logo d-flex align-items-center gap-2">
+            <div class="logo-mark">E</div>
+            <h4 class="m-0 text-decoration-none fs-5"><a href="/index.html"
+                style="text-decoration: none !important; color: #583BFF;"><b>E-store</b></a></h4>
+          </div>
+        </div>
+        <div class="actions d-flex align-items-center gap-2">
+          <div id="profileImg"></div>
+          <a href="/cart/index.html" style="text-decoration: none;">
+            <button id="headerCart" class="btn btn-sm d-flex align-items-center"
+              style="background-color: #EAE7FD; position: relative;">
+              <i class="bi bi-cart-fill me-1" style="color: #583BFF;"></i>
+              <span class="d-none d-md-inline" style="color: #583BFF;">Your Cart</span>
+              <span id="cartCount" class="badge bg-danger ms-2 js-cart-quantity"
+                style="position: absolute; top: -10px; right: -10px;">0</span>
+            </button>
+          </a>
+        </div>
+      </header>
+
+      <!-- Mobile offcanvas sidebar -->
+      <div class="offcanvas offcanvas-start" tabindex="-1" id="mobileSidebar">
+        <div class="offcanvas-header ms-auto">
+          <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"></button>
+        </div>
+        <div class="offcanvas-body">
+          <div class="brand mb-3">
+            <h4 class="m-0 fs-4"><a href="../index.html"
+                style="text-decoration:none;color:var(--brand)"><b>E-store</b></a>
+            </h4>
+          </div>
+          <nav class="mb-3">
+            <ul class="list-unstyled small">
+              <li class="py-2"><a href="../checkout/adress-page/address.html">1. CUSTOMER ADDRESS</a></li>
+              <li class="py-2"><a href="../checkout/delivery/delivery.html">2. DELIVERY DETAILS</a></li>
+              <li class="py-2 active"><a href="#">3. PAYMENT METHOD</a></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+
+      <section class="container-fluid p-4">
+        <div class="row g-4 js-payment-page js-checkout-summary">
+          <div class="col-12">
+            <a href="../adress-page/address.html" style="text-decoration: none;">
+              <div class="card p-3 animate-up delay mb-3">
+                <h6 class="mb-2 d-flex align-items-center gap-1"> <img src="/images/checkmark.png" alt=""
+                    width="18px">1.
+                  CUSTOMER ADDRESS
+                </h6>
+                <p class="small text-muted mb-0" id="deliveryName"></p>
+                <p class="small text-muted mb-0" id="deliveryAddress"></p>
+              </div>
+            </a>
+            <a href="../delivery/delivery.html" style="text-decoration: none;">
+              <div class="card p-3 mb-3 animate-up delay">
+                <h6 class="mb-2 d-flex align-items-center gap-1"><img src="/images/checkmark.png" alt="" width="18px">2.
+                  DELIVERY DETAILS</h6>
+                <p class="small text-muted mb-0">Delivery between <span id="todayDate2">27 November</span> and
+                  <span id="tomDate2">27 November</span>
+                </p>
+              </div>
+            </a>
+
+            <div class="card p-3 animate-up">
+              <div class="d-flex justify-content-between align-items-start">
+                <h6 class="mb-0">3. PAYMENT METHOD</h6>
+                <a href="../checkout/delivery/delivery.html" class="small">Change ›</a>
+              </div>
+              <hr class="my-3">
+
+              <div class="mb-3">
+                <div class="form-check p-3 mb-2 rounded border">
+                  <input class="form-check-input" type="radio" name="pm" id="pm1" value="cards" checked>
+                  <label class="form-check-label ms-2" for="pm1"><strong>Pay with Cards, Bank Transfer or USSD</strong>
+                    <div class="small text-muted">You will be redirected to our secure checkout page.</div>
+                  </label>
+                </div>
+
+                <div class="form-check p-3 mb-2 rounded border">
+                  <input class="form-check-input" type="radio" name="pm" id="pm2" value="opay">
+                  <label class="form-check-label ms-2" for="pm2"><strong>Opay</strong>
+                    <div class="small text-muted">To use this option, you must be registered with Opay.</div>
+                  </label>
+                </div>
+
+                <div class="form-check p-3 mb-2 rounded border">
+                  <input class="form-check-input" type="radio" name="pm" id="pm3" value="cod">
+                  <label class="form-check-label ms-2" for="pm3"><strong>Payment on delivery</strong>
+                    <div class="small text-muted">Go Cashless: Pay on Delivery via bank transfer.</div>
+                  </label>
+                </div>
+              </div>
+
+              <div class="mt-3 p-2 bg-light rounded small text-muted">
+                <strong>Note:</strong> When you click Confirm payment method you will be taken to a secure payment flow.
+              </div>
+
+              <div class="mt-4 text-end">
+                <button id="fakePayButton" class="btn btn-primary">Confirm payment (₦<span
+                    class="js-total-price"></span>)</button>
+              </div>
+            </div>
+          </div>
+      </section>
+      <div id="fakePaymentPopup" class="fake-payment-overlay" style="display: none;">
+        <div class="fake-payment-box">
+          <h4>Pay with paystack</h4>
+          <p>Total: <span id="fakePayAmount"></span></p>
+
+          <button id="confirmFakePayment" class="btn btn-success w-100 mb-2">Confirm Payment</button>
+          <button id="cancelFakePayment" class="btn btn-secondary w-100">Cancel</button>
+        </div>
+      </div>
+    </main>
+  </div>
+
+
+  <script src="https://js.paystack.co/v1/inline.js"></script>
+  <script type="module" src="payment.js"></script>
+  <script type="module" src="/scripts/script.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

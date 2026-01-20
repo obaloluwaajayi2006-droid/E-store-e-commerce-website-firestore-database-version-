@@ -1,0 +1,119 @@
+:root {
+  --primary: #6b4eff;
+  --muted: #f7f7fb;
+  --hero-height: 420px;
+}
+
+* {
+  box-sizing: border-box
+}
+
+body {
+  font-family: 'Poppins', system-ui, -apple-system, 'Segoe UI', Roboto, Arial;
+  margin: 0;
+  background: #fff;
+  color: #222
+}
+
+.auth-root {
+  background: linear-gradient(180deg, rgba(107, 78, 255, 0.04), rgba(107, 78, 255, 0.02))
+}
+
+.hero-image {
+  position: relative;
+  border-radius: 14px;
+  overflow: hidden;
+  min-height: var(--hero-height);
+}
+
+.hero-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: brightness(.85);
+  transform: scale(1);
+  transition: transform .9s ease
+}
+
+.hero-image:hover img {
+  transform: scale(1.04)
+}
+
+.hero-overlay {
+  position: absolute;
+  left: 18px;
+  bottom: 18px;
+  color: #fff
+}
+
+.hero-overlay h2 {
+  font-weight: 600;
+  margin: 0 0 .25rem
+}
+
+.auth-card {
+  background: #fff;
+  border-radius: 14px;
+  min-height: var(--hero-height);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.brand h3 {
+  color: var(--primary);
+  font-weight: 600
+}
+
+.form-control {
+  border-width: 1px;
+  border-color: #ececf4;
+  box-shadow: none
+}
+
+.form-control:focus {
+  box-shadow: 0 8px 30px rgba(107, 78, 255, 0.06);
+  border-color: var(--primary)
+}
+
+.btn-primary {
+  background: var(--primary);
+  border: 0
+}
+
+.btn-primary.processing {
+  transform: scale(.98);
+  opacity: .9
+}
+
+@media(max-width:767px) {
+  .hero-image {
+    display: block;
+    margin-bottom: 18px;
+    height: 200px
+  }
+
+  .hero-overlay {
+    left: 16px;
+    bottom: 16px
+  }
+}
+
+/* little entrance animation */
+.auth-card,
+.hero-image {
+  animation: popIn .6s ease both
+}
+
+@keyframes popIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px)
+  }
+
+  to {
+    opacity: 1;
+    transform: none
+  }
+}

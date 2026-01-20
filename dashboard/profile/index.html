@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Profile — Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+</head>
+
+<body>
+  <div class="page-root d-flex">
+    <aside class="sidebar bg-light p-4 d-none d-md-block">
+      <div class="brand mb-4">
+        <h4 class="m-0 fs-4"><a href="../index.html" class="brand-link">E-store</a></h4>
+      </div>
+      <nav class="mb-3">
+        <ul class="list-unstyled small">
+          <li class="py-2"><a href="../index.html">Dashboard</a></li>
+          <li class="py-2"><a href="../sales/index.html">Sales</a></li>
+          <li class="py-2"><a href="../inventory/index.html">Inventory</a></li>
+          <li class="py-2"><a href="../customers/index.html">Customers</a></li>
+          <li class="py-2"><a href="../reports/index.html">Reports</a></li>
+          <li class="py-2"><a href="../settings/index.html">Settings</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <main class="content flex-fill">
+      <header class="topbar d-flex align-items-center justify-content-between p-3 border-bottom">
+        <div class="d-flex align-items-center gap-3">
+          <button class="btn btn-outline-secondary d-md-none" data-bs-toggle="offcanvas" data-bs-target="#mobileSidebar"
+            aria-controls="mobileSidebar">
+            <i class="bi bi-list"></i>
+          </button>
+          <div class="logo d-flex align-items-center gap-2">
+            <div class="logo-mark">E</div>
+            <h4 class="m-0">Profile</h4>
+          </div>
+        </div>
+        <div class="d-flex align-items-center gap-2"><a href="../profile/index.html"
+            class="avatar rounded-circle bg-primary text-white d-flex align-items-center justify-content-center"
+            id="avatarBtn">U</a></div>
+      </header>
+
+      <section class="container-fluid p-4">
+        <div class="row g-3">
+          <div class="col-12 col-md-6">
+            <div class="card p-3">
+              <h6>Owner Information</h6>
+              <form id="profileForm">
+                <div class="mb-2">
+                  <label class="form-label small">Name</label>
+                  <input id="ownerName" class="form-control form-control-sm" />
+                </div>
+                <div class="mb-2">
+                  <label class="form-label small">Email</label>
+                  <input id="ownerEmail" class="form-control form-control-sm" />
+                </div>
+                <button id="saveProfile" class="btn btn-primary btn-sm" type="button">Save</button>
+              </form>
+            </div>
+          </div>
+          <div class="col-12 col-md-6">
+            <div class="card p-3">
+              <h6>Total Balance</h6>
+              <div id="profileBalance" class="h4 mb-2">$0.00</div>
+              <div class="d-flex gap-2">
+                <button id="refreshBalance" class="btn btn-sm btn-outline-secondary">Refresh Balance</button>
+                <button id="copyBalance" class="btn btn-sm btn-outline-secondary">Copy</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Mobile offcanvas sidebar -->
+  <div class="offcanvas offcanvas-start" tabindex="-1" id="mobileSidebar" aria-labelledby="mobileSidebarLabel">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title" id="mobileSidebarLabel">E-store</h5>
+      <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+      <div class="brand mb-3">
+        <h5 class="m-0"><a href="../index.html" class="brand-link">E-store</a></h5>
+      </div>
+      <nav class="mb-3">
+        <ul class="list-unstyled small">
+          <li class="py-2"><a href="../index.html">Dashboard</a></li>
+          <li class="py-2"><a href="../sales/index.html">Sales</a></li>
+          <li class="py-2"><a href="../inventory/index.html">Inventory</a></li>
+          <li class="py-2"><a href="../customers/index.html">Customers</a></li>
+          <li class="py-2"><a href="../reports/index.html">Reports</a></li>
+          <li class="py-2"><a href="../settings/index.html">Settings</a></li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+
+  <script>
+    // Utility: format USD
+    function formatUSD(v) { return '$' + Number(v).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
+
+    // Load owner data from localStorage
+    const ownerNameInput = document.getElementById('ownerName');
+    const ownerEmailInput = document.getElementById('ownerEmail');
+    const profileBalanceEl = document.getElementById('profileBalance');
+    const avatarBtn = document.getElementById('avatarBtn');
+
+    function loadOwner() {
+      const name = localStorage.getItem('owner_name') || 'Admin';
+      const email = localStorage.getItem('owner_email') || 'admin@example.com';
+      ownerNameInput.value = name;
+      ownerEmailInput.value = email;
+      avatarBtn.textContent = initials(name);
+      avatarBtn.title = name + ' • ' + email;
+    }
+
+    function loadBalance() {
+      let b = localStorage.getItem('dashboard_balance');
+      if (!b) b = '0';
+      profileBalanceEl.textContent = formatUSD(Number(b));
+    }
+
+    function initials(name) { return (name || 'U').split(' ').map(s => s[0]).join('').slice(0, 2).toUpperCase(); }
+
+    document.getElementById('saveProfile').addEventListener('click', () => {
+      const n = ownerNameInput.value || 'Admin';
+      const e = ownerEmailInput.value || 'admin@example.com';
+      localStorage.setItem('owner_name', n);
+      localStorage.setItem('owner_email', e);
+      avatarBtn.textContent = initials(n);
+      avatarBtn.title = n + ' • ' + e;
+      alert('Profile saved');
+    });
+
+    document.getElementById('refreshBalance').addEventListener('click', () => {
+      // set a fresh random balance and persist
+      const MIN = 1000, MAX = 50000;
+      const b = Math.random() * (MAX - MIN) + MIN;
+      localStorage.setItem('dashboard_balance', String(b));
+      profileBalanceEl.textContent = formatUSD(b);
+      alert('Balance refreshed');
+    });
+
+    document.getElementById('copyBalance').addEventListener('click', () => {
+      navigator.clipboard && navigator.clipboard.writeText(profileBalanceEl.textContent);
+      alert('Balance copied');
+    });
+
+    loadOwner(); loadBalance();
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

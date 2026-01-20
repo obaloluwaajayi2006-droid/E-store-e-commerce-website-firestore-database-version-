@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>E-store — Sneakers</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div class="page-root d-flex position-sticky top-0">
+    <!-- Sidebar (desktop) -->
+    <aside class=" vh-100 sidebar d-none d-md-block bg-light p-4 position-sticky top-0"
+      style="z-index: 1000 !important; background-color: #F6F6F6 !important;">
+      <div class="brand mb-4 d-flex align-items-center">
+        <div class="logo-mark">E</div>
+        <h4 class="m-0 text-decoration-none fs-6"><a href="index.html"
+            style="text-decoration: none !important; color: #583BFF;"><b>E-store</b></a></h4>
+      </div>
+      <nav class="mb-3">
+        <h6 class="mb-2">Category</h6>
+        <ul class="list-unstyled small">
+          <li class="py-2"><a href="shirt.html">Shirt</a></li>
+          <li class="py-2 active"><a href="sweatshirt.html">Sweatshirt</a></li>
+          <li class="py-2"><a href="jeans.html">Jeans</a></li>
+          <li class="py-2"><a href="sneakers.html">Sneakers</a></li>
+          <li class="py-2"><a href="accesories.html">Stuff and Accessories</a></li>
+        </ul>
+      </nav>
+
+      <div class="filters">
+        <h6 class="mb-2">Filter by</h6>
+        <div class="mb-3">
+          <label class="form-label small">Colour</label>
+          <div class="d-flex gap-2 color-swatches">
+            <button class="swatch" style="background:#111"></button>
+            <button class="swatch" style="background:#fff; border:1px solid #ddd"></button>
+            <button class="swatch" style="background:#b8b8ff"></button>
+            <button class="swatch" style="background:#ffb3c1"></button>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label class="form-label small">Size</label>
+          <div>
+            <select class="form-select form-select-sm">
+              <option>All</option>
+              <option>XS</option>
+              <option>S</option>
+              <option>M</option>
+              <option>L</option>
+            </select>
+          </div>
+        </div>
+        <button class="btn btn-primary btn-sm">Apply</button>
+      </div>
+    </aside>
+
+
+
+    <!-- Mobile offcanvas sidebar -->
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="mobileSidebar">
+      <div class="offcanvas-header ms-auto">
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"></button>
+      </div>
+      <div class="offcanvas-body">
+        <!-- replicate desktop sidebar content here for small screens -->
+        <div class="brand mb-3 d-flex align-items-center">
+          <div class="logo-mark">E</div>
+          <h4 class="m-0 text-decoration-none fs-4"><a href="index.html"
+              style="text-decoration: none !important; color: #583BFF;"><b>E-store</b></a></h4>
+        </div>
+        <nav class="mb-3">
+          <h6 class="mb-2">Category</h6>
+          <ul class="list-unstyled small">
+            <li class="py-2"><a href="shirt.html" style="text-decoration: none; color: black;">Shirt</a></li>
+            <li class="py-2 active"><a href="sweatshirt.html"
+                style="text-decoration: none; color: black;">Sweatshirt</a>
+            </li>
+            <li class="py-2"><a href="jeans.html" style="text-decoration: none; color: black;">Jeans</a></li>
+            <li class="py-2"><a href="sneakers.html" style="text-decoration: none; color: black;">Sneakers</a></li>
+            <li class="py-2"><a href="accesories.html" style="text-decoration: none; color: black;">Stuff and
+                Accessories</a></li>
+          </ul>
+        </nav>
+
+        <div class="filters">
+          <h6 class="mb-2">Filter by</h6>
+          <div class="mb-3">
+            <label class="form-label small">Colour</label>
+            <div class="d-flex gap-2 color-swatches">
+              <button class="swatch" style="background:#111"></button>
+              <button class="swatch" style="background:#fff; border:1px solid #ddd"></button>
+              <button class="swatch" style="background:#b8b8ff"></button>
+              <button class="swatch" style="background:#ffb3c1"></button>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label small">Size</label>
+            <div>
+              <select class="form-select form-select-sm">
+                <option>All</option>
+                <option>XS</option>
+                <option>S</option>
+                <option>M</option>
+                <option>L</option>
+              </select>
+            </div>
+          </div>
+          <button class="btn btn-primary btn-sm">Apply</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main content -->
+    <main class="content flex-fill position-sticky top-0">
+      <header class="topbar d-flex align-items-center justify-content-between p-3 border-bottom position-sticky top-0"
+        style="z-index: 1000; background-color: white !important;">
+        <div class="d-flex align-items-center gap-2">
+          <button class="btn btn-outline-secondary d-md-none" data-bs-toggle="offcanvas"
+            data-bs-target="#mobileSidebar">
+            <i class="bi bi-list"></i>
+          </button>
+          <div class="logo d-lg-none d-sm-flex gap-2 align-items-center d-flex">
+            <div class="logo-mark">E</div>
+            <h4 class="m-0 text-decoration-none fs-6"><a href="index.html"
+                style="text-decoration: none !important; color: #583BFF;"><b>E-store</b></a></h4>
+          </div>
+          <div class="search me-2">
+            <div class="input-group d-none d-md-flex">
+              <input class="form-control form-control-sm" placeholder="Search among 100+ products">
+              <button class="btn btn-sm btn-outline-secondary"><i class="bi bi-search"></i></button>
+            </div>
+          </div>
+        </div>
+        <div class="actions d-flex align-items-center gap-2">
+          <p class="mb-0 fs-6" style="font-size: 12px !important;">Hi, <span class="fw-semibold" id="userName"></span>
+          </p>
+          <div id="profileImg"></div>
+          <!-- <button class="btn btn-sm btn-outline-secondary d-md-none"><i class="bi bi-search"></i></button> -->
+          <a id="headerCart" href="cart/index.html" class="btn btn-sm d-flex align-items-center"
+            style="background-color: #EAE7FD; position: relative;">
+            <i class="bi bi-cart-fill me-1" style="color: #583BFF;"></i>
+            <span class="d-none d-md-inline" style="color: #583BFF;">Your Cart</span>
+            <span id="cartCount" class="badge bg-danger ms-2 js-cart-quantity"
+              style="position: absolute; top: -10px; right: -10px;">0</span>
+          </a>
+        </div>
+      </header>
+
+      <section class="container-fluid p-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <div>
+            <h3 class="mb-0">Sneakers</h3>
+            <small class="text-muted">Main Page • Category • Sneakers</small>
+          </div>
+          <div class="d-flex align-items-center gap-2">
+            <select class="form-select form-select-sm">
+              <option>Sort by - Most Popular</option>
+              <option>Newest</option>
+              <option>Price: Low to High</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="row g-4 product-grid js-sneakers-products">
+
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyD7RJNXJvCyxJW59ge_30HcpDQrS3SGYCQ",
+      authDomain: "e-store-project-24928.firebaseapp.com",
+      projectId: "e-store-project-24928",
+      storageBucket: "e-store-project-24928.firebasestorage.app",
+      messagingSenderId: "108352256578",
+      appId: "1:108352256578:web:9abfa1487e033c09668bdb"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth();
+
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        console.log(user);
+        const first = (user.displayName || '').trim().split(/\s+/)[0] || '';
+        document.getElementById('userName').textContent = first;
+        document.getElementById('profileImg').innerHTML = `<img src="${user.photoURL}" alt="Profile" style="width: 25px; height: 25px; border-radius: 50%;">
+      `
+      } else {
+        setTimeout(() => {
+          window.location.href = '/signup/index.html';
+        }, 1000)
+      }
+    });
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script type="module" src="scripts/script.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,94 @@
+:root {
+  --primary: #6b4eff;
+  --brand: #583BFF;
+}
+
+body {
+  font-family: 'Poppins', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial
+}
+
+.topbar {
+  background: #fff
+}
+
+.logo-mark {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  background: var(--brand);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700
+}
+
+.card {
+  border-radius: 6px;
+  box-shadow: 0 6px 18px rgba(16, 24, 40, 0.06)
+}
+
+.card .form-label.small {
+  font-size: .8rem;
+  color: #6b6b7a
+}
+
+.btn-primary {
+  background: var(--primary);
+  border-color: var(--primary)
+}
+
+.btn-primary:hover {
+  background: var(--brand);
+  border-color: var(--brand)
+}
+
+/* simple entrance animations */
+.animate-up {
+  animation: fadeUp .36s ease both
+}
+
+.animate-up.delay {
+  animation-delay: .06s
+}
+
+.animate-up.delay-2 {
+  animation-delay: .12s
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px)
+  }
+
+  to {
+    opacity: 1;
+    transform: none
+  }
+}
+
+/* responsive tweaks */
+@media (max-width:767px) {
+  .topbar {
+    padding: 12px
+  }
+
+  .card {
+    margin-bottom: 12px
+  }
+}
+
+.img-thumbnail {
+  border-radius: 6px
+}
+
+.small.text-muted {
+  color: #6b6b7a
+}
+
+.btn-secondary {
+  background: #f1f1f4;
+  border-color: #f1f1f4;
+  color: #6b6b7a
+}

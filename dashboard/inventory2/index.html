@@ -1,0 +1,419 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Inventory — Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <style>
+    body { font-family: 'Poppins', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; }
+    .logo-mark { width:40px; height:40px; border-radius:6px; background:#0d6efd; color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700 }
+    .sidebar { width:250px; }
+    .content { min-height:100vh; }
+    .product-img { width:60px; height:60px; object-fit:cover; border-radius:6px }
+    .table-actions button { margin-right:6px }
+    @media (max-width: 767px) { .sidebar { display:none } }
+  </style>
+</head>
+
+<body>
+  <div class="page-root d-flex">
+    <aside class="sidebar bg-light p-4 d-none d-md-block">
+      <div class="brand mb-4 gap-2 align-items-center d-flex">
+        <div class="logo-mark">E</div>
+        <h4 class="m-0 fs-4"><a href="#" class="brand-link text-dark" style="text-decoration:none">E-store</a></h4>
+      </div>
+      <nav class="mb-3">
+        <ul class="list-unstyled small">
+          <li class="py-2"><a href="#" style="text-decoration: none !important; color: black;">Dashboard</a></li>
+          <li class="py-2"><a href="#" style="text-decoration: none !important; color: black;">Sales</a></li>
+          <li class="py-2 active"><a href="#" style="text-decoration: none !important; color: black;">Inventory</a></li>
+          <li class="py-2"><a href="#" style="text-decoration: none !important; color: black;">Customers</a></li>
+          <li class="py-2"><a href="#" style="text-decoration: none !important; color: black;">Reports</a></li>
+          <li class="py-2"><a href="#" style="text-decoration: none !important; color: black;">Settings</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <main class="content flex-fill">
+      <header class="topbar d-flex align-items-center justify-content-between p-3 border-bottom">
+        <div class="d-flex align-items-center gap-3">
+          <div class="logo d-flex align-items-center gap-2">
+            <h4 class="m-0">Inventory</h4>
+          </div>
+        </div>
+        <div class="d-flex align-items-center gap-2">
+          <div class="me-3 text-end small text-muted">Welcome, <strong id="ownerLabel">Admin</strong></div>
+          <a href="#" class="avatar rounded-circle bg-primary text-white d-flex align-items-center justify-content-center" id="avatarBtn">I</a>
+        </div>
+      </header>
+
+      <section class="container-fluid p-4">
+        <div class="row g-3">
+          <!-- Left: Table -->
+          <div class="col-12 col-lg-8">
+            <div class="card p-3">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <h6 class="m-0">Products</h6>
+                <div class="d-flex gap-2">
+                  <select id="filterCategory" class="form-select form-select-sm">
+                    <option value="all">All categories</option>
+                  </select>
+                  <input id="searchInput" class="form-control form-control-sm" placeholder="Search product...">
+                </div>
+              </div>
+
+              <div class="table-responsive">
+                <table class="table align-middle table-hover small mb-0" id="productsTable">
+                  <thead class="text-muted small">
+                    <tr>
+                      <th>SKU</th>
+                      <th>Product</th>
+                      <th>Price</th>
+                      <th>Category</th>
+                      <th>Stock</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="productsTbody">
+                    <!-- rows go here -->
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="mt-3 small text-muted" id="noProducts" style="display:none">No products yet. Add one using the form on the right.</div>
+            </div>
+          </div>
+
+          <!-- Right: Add Product Form -->
+          <div class="col-12 col-lg-4">
+            <div class="card p-3">
+              <h6>Add / Edit Product</h6>
+
+              <form id="productForm">
+                <input type="hidden" id="productId">
+
+                <div class="mb-2">
+                  <label class="form-label small">Image</label>
+                  <input type="file" id="productImage" accept="image/*" class="form-control form-control-sm">
+                </div>
+
+                <div class="mb-2">
+                  <label class="form-label small">Name</label>
+                  <input type="text" id="productName" class="form-control form-control-sm" required>
+                </div>
+
+                <div class="mb-2">
+                  <label class="form-label small">Price (₦)</label>
+                  <input type="number" id="productPrice" class="form-control form-control-sm" required min="0">
+                </div>
+
+                <div class="mb-2">
+                  <label class="form-label small">Category</label>
+                  <select id="productCategory" class="form-select form-select-sm" required>
+                    <option value="">Choose category</option>
+                    <option value="sweatshirt">sweatshirt</option>
+                    <option value="accesories">accesories</option>
+                    <option value="jeans">jeans</option>
+                    <option value="shirt">shirt</option>
+                    <option value="sneakers">sneakers</option>
+                  </select>
+                </div>
+
+                <div class="mb-2">
+                  <label class="form-label small">Stock</label>
+                  <input type="number" id="productStock" class="form-control form-control-sm" required min="0" value="1">
+                </div>
+
+                <div class="d-grid gap-2">
+                  <button class="btn btn-primary btn-sm" id="saveBtn" type="submit">Add Product</button>
+                  <button class="btn btn-outline-secondary btn-sm" type="button" id="resetBtn">Reset</button>
+                </div>
+
+                <div class="mt-2 small text-success" id="formMsg" style="display:none"></div>
+              </form>
+            </div>
+
+            <div class="card p-3 mt-3">
+              <h6>Quick actions</h6>
+              <div class="d-grid gap-2">
+                <button class="btn btn-sm btn-outline-danger" id="clearAll">Clear all products</button>
+                <button class="btn btn-sm btn-outline-secondary" id="exportJson">Export JSON</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Edit Modal (alternative flow) -->
+  <div class="modal fade" id="previewModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Product preview</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body text-center">
+          <img id="previewImg" src="" class="img-fluid mb-2" style="max-height:240px; object-fit:contain">
+          <h6 id="previewName"></h6>
+          <div id="previewPrice" class="small text-muted"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // --- Configuration ---
+    const STORAGE_KEY = 'products_v1';
+    const categories = ['sweatshirt','accesories','jeans','shirt','sneakers'];
+
+    // --- Helpers ---
+    const $ = (sel) => document.querySelector(sel);
+    const $$ = (sel) => document.querySelectorAll(sel);
+
+    function uid() { return Date.now().toString(); }
+    function skuFromId(id) { return 'SKU-' + String(id).slice(-6); }
+
+    // --- Load / Save ---
+    function loadProducts() {
+      try {
+        return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+      } catch (e) {
+        console.error(e);
+        return [];
+      }
+    }
+
+    function saveProducts(products) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(products));
+    }
+
+    // --- Render Category Filter ---
+    function populateCategoryFilter() {
+      const filter = $('#filterCategory');
+      filter.innerHTML = '<option value="all">All categories</option>' + categories.map(c => `\n        <option value="${c}">${c}</option>`).join('');
+    }
+
+    // --- Render Table ---
+    function renderTable() {
+      const products = loadProducts();
+      const tbody = $('#productsTbody');
+      const filter = $('#filterCategory').value;
+      const q = $('#searchInput').value.trim().toLowerCase();
+
+      const filtered = products.filter(p => {
+        if (filter !== 'all' && p.category !== filter) return false;
+        if (!q) return true;
+        return p.name.toLowerCase().includes(q) || p.sku.toLowerCase().includes(q) || p.category.toLowerCase().includes(q);
+      });
+
+      if (filtered.length === 0) {
+        $('#noProducts').style.display = 'block';
+      } else {
+        $('#noProducts').style.display = 'none';
+      }
+
+      tbody.innerHTML = filtered.map(p => `
+        <tr data-id="${p.id}">
+          <td>${p.sku}</td>
+          <td>
+            <div class="d-flex align-items-center gap-2">
+              <img src="${p.image}" class="product-img" alt="">
+              <div>
+                <div class="fw-semibold">${escapeHtml(p.name)}</div>
+                <div class="small text-muted">ID: ${p.id}</div>
+              </div>
+            </div>
+          </td>
+          <td>₦${numberWithCommas(p.price)}</td>
+          <td>${p.category}</td>
+          <td>${p.stock}</td>
+          <td class="table-actions">
+            <button class="btn btn-sm btn-outline-secondary" onclick="onPreview('${p.id}')"><i class="bi bi-eye"></i></button>
+            <button class="btn btn-sm btn-primary" onclick="onEdit('${p.id}')"><i class="bi bi-pencil"></i></button>
+            <button class="btn btn-sm btn-danger" onclick="onDelete('${p.id}')"><i class="bi bi-trash"></i></button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    // --- Utilities ---
+    function numberWithCommas(x) { return String(x).replace(/\B(?=(\d{3})+(?!\d))/g, ","); }
+    function escapeHtml(str){ return String(str).replace(/[&<>"']/g, function(m){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"}[m]; }); }
+
+    // --- Form actions ---
+    async function readImageAsDataURL(file) {
+      return new Promise((res, rej) => {
+        const reader = new FileReader();
+        reader.onload = () => res(reader.result);
+        reader.onerror = (e) => rej(e);
+        reader.readAsDataURL(file);
+      });
+    }
+
+    document.getElementById('productForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const id = $('#productId').value;
+      const name = $('#productName').value.trim();
+      const price = Number($('#productPrice').value) || 0;
+      const category = $('#productCategory').value;
+      const stock = Number($('#productStock').value) || 0;
+      const fileInput = $('#productImage');
+
+      if (!name || !category) return showFormMsg('Please fill name and category', 'danger');
+
+      let imageData = null;
+      // If adding new product and an image is provided
+      if (fileInput.files && fileInput.files[0]) {
+        try { imageData = await readImageAsDataURL(fileInput.files[0]); } catch (err) { console.error(err); }
+      }
+
+      const products = loadProducts();
+
+      if (id) {
+        // Edit flow
+        const idx = products.findIndex(p => p.id === id);
+        if (idx === -1) return showFormMsg('Product not found', 'danger');
+        products[idx].name = name;
+        products[idx].price = price;
+        products[idx].category = category;
+        products[idx].stock = stock;
+        if (imageData) products[idx].image = imageData; // replace image only if new one uploaded
+        saveProducts(products);
+        showFormMsg('Product updated', 'success');
+      } else {
+        // Add flow
+        const newId = uid();
+        const newItem = {
+          id: newId,
+          sku: skuFromId(newId),
+          name: name,
+          price: price,
+          category: category,
+          stock: stock,
+          image: imageData || placeholderImage(name)
+        };
+        products.unshift(newItem); // newest first
+        saveProducts(products);
+        showFormMsg('Product added', 'success');
+      }
+
+      $('#productForm').reset();
+      $('#productId').value = '';
+      $('#saveBtn').innerText = 'Add Product';
+      setTimeout(() => { $('#formMsg').style.display = 'none'; }, 1800);
+      renderTable();
+    });
+
+    // Reset button
+    document.getElementById('resetBtn').addEventListener('click', () => {
+      $('#productForm').reset();
+      $('#productId').value = '';
+      $('#saveBtn').innerText = 'Add Product';
+      $('#formMsg').style.display = 'none';
+    });
+
+    // Preview
+    function onPreview(id) {
+      const products = loadProducts();
+      const p = products.find(x => x.id === id);
+      if (!p) return alert('Product not found');
+      $('#previewImg').src = p.image;
+      $('#previewName').innerText = p.name;
+      $('#previewPrice').innerText = '₦' + numberWithCommas(p.price);
+      const modal = new bootstrap.Modal(document.getElementById('previewModal'));
+      modal.show();
+    }
+
+    // Edit
+    function onEdit(id) {
+      const products = loadProducts();
+      const p = products.find(x => x.id === id);
+      if (!p) return alert('Product not found');
+      $('#productId').value = p.id;
+      $('#productName').value = p.name;
+      $('#productPrice').value = p.price;
+      $('#productCategory').value = p.category;
+      $('#productStock').value = p.stock;
+      $('#saveBtn').innerText = 'Update Product';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Delete
+    function onDelete(id) {
+      if (!confirm('Delete this product?')) return;
+      let products = loadProducts();
+      products = products.filter(p => p.id !== id);
+      saveProducts(products);
+      renderTable();
+    }
+
+    // Clear all
+    document.getElementById('clearAll').addEventListener('click', () => {
+      if (!confirm('This will remove ALL products from localStorage. Continue?')) return;
+      localStorage.removeItem(STORAGE_KEY);
+      renderTable();
+    });
+
+    // Export JSON
+    document.getElementById('exportJson').addEventListener('click', () => {
+      const data = loadProducts();
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = 'products.json'; a.click();
+      URL.revokeObjectURL(url);
+    });
+
+    // Search & filter
+    $('#filterCategory').addEventListener('change', renderTable);
+    $('#searchInput').addEventListener('input', renderTable);
+
+    // --- Small helpers ---
+    function showFormMsg(text, type='success'){
+      const el = $('#formMsg');
+      el.innerText = text; el.style.display = 'block';
+      el.className = 'mt-2 small text-' + (type === 'success' ? 'success' : 'danger');
+    }
+
+    function placeholderImage(title){
+      // tiny SVG placeholder with product initial
+      const initial = title.charAt(0).toUpperCase() || '?';
+      const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><rect width='100%' height='100%' fill='%23f3f4f6'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-size='72' fill='%23000'>${initial}</text></svg>`;
+      return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+    }
+
+    // --- Init ---
+    function init(){
+      populateCategoryFilter();
+      renderTable();
+
+      // If first time and no products, seed example (optional)
+      const existing = loadProducts();
+      if (!existing || existing.length === 0) {
+        // seed small examples (comment out if you don't want this)
+        const seed = [
+          { id: uid(), sku: skuFromId(Date.now()+1), name: 'Classic Sweatshirt', price: 8500, category: 'sweatshirt', stock: 24, image: placeholderImage('Classic Sweatshirt') },
+          { id: uid(), sku: skuFromId(Date.now()+2), name: 'Blue Jeans', price: 12000, category: 'jeans', stock: 12, image: placeholderImage('Blue Jeans') },
+        ];
+        saveProducts(seed);
+        renderTable();
+      }
+    }
+
+    // expose actions for inline onclick
+    window.onEdit = onEdit;
+    window.onDelete = onDelete;
+    window.onPreview = onPreview;
+
+    init();
+  </script>
+</body>
+
+</html>

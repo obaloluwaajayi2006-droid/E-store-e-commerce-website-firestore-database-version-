@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Inventory — Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+</head>
+
+<body>
+  <div class="page-root d-flex">
+    <aside class="sidebar bg-light p-4 d-none d-md-block">
+      <div class="brand mb-4 gap-2 align-items-center d-flex">
+        <div class="logo-mark">E</div>
+        <h4 class="m-0 fs-4"><a href="../../index.html" class="brand-link">E-store</a></h4>
+      </div>
+      <nav class="mb-3">
+        <ul class="list-unstyled small">
+          <li class="py-2"><a href="../index.html" style="text-decoration: none !important; color: black;">Dashboard</a>
+          </li>
+          <li class="py-2"><a href="../sales/index.html"
+              style="text-decoration: none !important; color: black;">Sales</a></li>
+          <li class="py-2 active"><a href="index.html"
+              style="text-decoration: none !important; color: black;">Inventory</a></li>
+          <li class="py-2"><a href="../customers/index.html"
+              style="text-decoration: none !important; color: black;">Customers</a>
+          </li>
+          <li class="py-2"><a href="../reports/index.html"
+              style="text-decoration: none !important; color: black;">Reports</a></li>
+          <li class="py-2"><a href="../settings/index.html"
+              style="text-decoration: none !important; color: black;">Settings</a></li>
+        </ul>
+      </nav>
+    </aside>
+    <main class="content flex-fill">
+      <header class="topbar d-flex align-items-center justify-content-between p-3 border-bottom">
+        <div class="d-flex align-items-center gap-3">
+          <button class="btn btn-outline-secondary d-md-none" data-bs-toggle="offcanvas" data-bs-target="#mobileSidebar"
+            aria-controls="mobileSidebar">
+            <i class="bi bi-list"></i>
+          </button>
+          <div class="logo d-flex align-items-center gap-2">
+            <h4 class="m-0">Inventory</h4>
+          </div>
+        </div>
+        <div class="d-flex align-items-center gap-2">
+          <div class="me-3 text-end small text-muted">Welcome, <strong id="ownerLabel">Admin</strong></div>
+          <a href="../profile/index.html"
+            class="avatar rounded-circle bg-primary text-white d-flex align-items-center justify-content-center"
+            id="avatarBtn">I</a>
+        </div>
+      </header>
+      <section class="container-fluid p-4">
+        <div class="row g-3">
+          <div class="col-12 col-lg-8">
+            <div class="card p-3">
+              <h6>Stock Levels</h6>
+              <div class="table-responsive">
+                <table class="table table-borderless small mb-0">
+                  <thead class="text-muted">
+                    <tr>
+                      <th>SKU</th>
+                      <th>Product</th>
+                      <th>Stock</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>SKU-001</td>
+                      <td>Classic Tee</td>
+                      <td>230</td>
+                      <td><span class="badge bg-success">In stock</span></td>
+                    </tr>
+                    <tr>
+                      <td>SKU-002</td>
+                      <td>Denim Jacket</td>
+                      <td>12</td>
+                      <td><span class="badge bg-warning">Low</span></td>
+                    </tr>
+                    <tr>
+                      <td>SKU-003</td>
+                      <td>Sweatshirt</td>
+                      <td>0</td>
+                      <td><span class="badge bg-danger">Out</span></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-lg-4">
+            <div class="card p-3">
+              <h6>Reorder suggestions</h6>
+              <ul class="small list-unstyled mb-0">
+                <li>Denim Jacket — reorder 50</li>
+                <li>Sweatshirt — reorder 120</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+  <!-- Mobile offcanvas sidebar -->
+  <div class="offcanvas offcanvas-start" tabindex="-1" id="mobileSidebar" aria-labelledby="mobileSidebarLabel">
+    <div class="offcanvas-header ms-auto">
+      <!-- <h5 class="offcanvas-title" id="mobileSidebarLabel">E-store</h5> -->
+      <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+      <div class="brand mb-3 gap-2 align-items-center d-flex">
+        <div class="logo-mark">E</div>
+        <h5 class="m-0"><a href="../../index.html" class="brand-link">E-store</a></h5>
+      </div>
+      <nav class="mb-3">
+        <ul class="list-unstyled small">
+          <li class="py-2"><a href="../index.html" style="text-decoration: none !important; color: black;">Dashboard</a>
+          </li>
+          <li class="py-2"><a href="../sales/index.html"
+              style="text-decoration: none !important; color: black;">Sales</a></li>
+          <li class="py-2 active"><a href="index.html"
+              style="text-decoration: none !important; color: black;">Inventory</a></li>
+          <li class="py-2"><a href="../customers/index.html"
+              style="text-decoration: none !important; color: black;">Customers</a></li>
+          <li class="py-2"><a href="../reports/index.html"
+              style="text-decoration: none !important; color: black;">Reports</a></li>
+          <li class="py-2"><a href="../settings/index.html"
+              style="text-decoration: none !important; color: black;">Settings</a></li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

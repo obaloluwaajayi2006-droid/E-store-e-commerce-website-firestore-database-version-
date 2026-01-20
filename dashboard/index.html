@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dashboard — E-store</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+  <div class="page-root d-flex">
+    <aside class="vh-100 sidebar bg-light p-4 d-none d-md-block">
+      <div class="brand mb-4 d-flex align-items-center gap-2">
+        <div class="logo-mark">E</div>
+        <h4 class="m-0 fs-5"><a href="../index.html" class="brand-link">E-store</a></h4>
+      </div>
+      <nav class="mb-3">
+        <ul class="list-unstyled small">
+          <li class="py-2 active"><a href="index.html" style="text-decoration: none; color: black;">Dashboard</a></li>
+          <li class="py-2"><a href="sales/index.html" style="text-decoration: none; color: black;">Sales</a></li>
+          <li class="py-2"><a href="inventory/index.html" style="text-decoration: none; color: black;">Inventory</a>
+          </li>
+          <li class="py-2"><a href="customers/index.html" style="text-decoration: none; color: black;">Customers</a>
+          </li>
+          <li class="py-2"><a href="reports/index.html" style="text-decoration: none; color: black;">Reports</a></li>
+          <li class="py-2"><a href="settings/index.html" style="text-decoration: none; color: black;">Settings</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <main class="content flex-fill">
+      <header class="topbar d-flex align-items-center justify-content-between p-3 border-bottom">
+        <div class="d-flex align-items-center gap-3">
+          <button class="btn btn-outline-secondary d-md-none" data-bs-toggle="offcanvas" data-bs-target="#mobileSidebar"
+            aria-controls="mobileSidebar">
+            <i class="bi bi-list"></i>
+          </button>
+          <div class="logo d-lg-none d-flex gap-2 align-items-center">
+            <div class="logo-mark">E</div>
+            <h4 class="m-0 fs-6 brand-link"><a href="../index.html" style="text-decoration: none;">E-store</a></h4>
+          </div>
+          <div class="search d-none d-md-block">
+            <input class="form-control form-control-sm" placeholder="Search or type a command">
+          </div>
+        </div>
+        <div class="d-flex align-items-center gap-2">
+          <div class="me-3 text-end small text-muted">Welcome, <strong id="ownerLabel">Admin</strong></div>
+          <a href="profile/index.html"
+            class="avatar rounded-circle bg-primary text-white d-flex align-items-center justify-content-center"
+            id="avatarBtn">J</a>
+        </div>
+      </header>
+
+      <section class="container-fluid p-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <div>
+            <h3 class="mb-0">Dashboard</h3>
+            <small class="text-muted">Overview • Analytics</small>
+          </div>
+          <div class="d-flex gap-2 align-items-center">
+            <div class="balance-card p-3 rounded shadow-sm text-end">
+              <div class="small text-muted">Total Balance</div>
+              <div class="h4 mb-0">₦<span id="totalRevenue"></span></div>
+              <div class="small text-muted">Updated <span id="balanceTime">now</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row g-3">
+          <div class="col-12 col-lg-8">
+            <div class="row g-3">
+              <div class="col-6 col-md-3">
+                <div class="card stat-card p-3">
+                  <small class="text-muted">Annual Revenue</small>
+                  <div class="h5 mt-2">₦<span id="totalRevenue2"></span><span class="text-success">+20%</span></div>
+                </div>
+              </div>
+              <div class="col-6 col-md-3">
+                <div class="card stat-card p-3">
+                  <small class="text-muted">Monthly Revenue</small>
+                  <div class="h5 mt-2">₦<span id="totalThisMonth"></span><span class="text-success">+25%</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-6 col-md-3">
+                <div class="card stat-card p-3">
+                  <small class="text-muted">Product Orders</small>
+                  <div class="h5 mt-2"><span id="totalQuantityYear">500</span> <span class="text-success">+25%</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-6 col-md-3">
+                <div class="card stat-card p-3">
+                  <small class="text-muted">Product Returns</small>
+                  <div class="h5 mt-2">20 <span class="text-danger">-33%</span></div>
+                </div>
+              </div>
+
+              <div class="col-12">
+                <div class="card p-3">
+                  <div class="d-flex justify-content-between align-items-center mb-2">
+                    <h6 class="mb-0">Sales Report</h6>
+                    <select class="form-select form-select-sm w-auto">
+                      <option>12 months</option>
+                      <option>6 months</option>
+                      <option>30 days</option>
+                    </select>
+                  </div>
+                  <!-- <canvas id="salesChart" height="100"></canvas> -->
+                  <canvas id="dailyChart"></canvas>
+                </div>
+              </div>
+
+              <div class="col-12">
+                <div class="card p-3">
+                  <h6 class="mb-3">Transactions</h6>
+                  <div class="table-responsive">
+                    <table class="table table-borderless small align-middle mb-0">
+                      <thead class="text-muted small">
+                        <tr>
+                          <th>Order</th>
+                          <th>Customer</th>
+                          <th>Amount</th>
+                          <th>Date</th>
+                          <th>Reference</th>
+                        </tr>
+                      </thead>
+                      <tbody id="salesOrder">
+
+                      </tbody>
+
+                    </table>
+                    <a href="./sales/index.html"
+                      class="text-center text-decoration-underline d-flex align-items-center justify-content-center"
+                      style="font-size: 14px !important;">
+                      See more ></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 col-lg-4">
+            <div class="card p-3 mb-3">
+              <h6 class="mb-3">Top selling products</h6>
+              <canvas id="pieChart" height="220"></canvas>
+            </div>
+
+            <div class="card p-3 mb-3">
+              <h6 class="mb-3">Traffic Sources</h6>
+              <div class="small text-muted mb-2">Google <span class="float-end">3,450</span></div>
+              <div class="progress mb-2" style="height:8px;">
+                <div class="progress-bar bg-success" style="width:70%"></div>
+              </div>
+              <div class="small text-muted mb-2">Advertising <span class="float-end">2,548</span></div>
+              <div class="progress mb-2" style="height:8px;">
+                <div class="progress-bar bg-info" style="width:52%"></div>
+              </div>
+              <div class="small text-muted mb-2">Direct <span class="float-end">2,203</span></div>
+              <div class="progress mb-2" style="height:8px;">
+                <div class="progress-bar bg-primary" style="width:45%"></div>
+              </div>
+            </div>
+
+            <div class="card p-3">
+              <h6 class="mb-3">Live Balance Trend</h6>
+              <canvas id="balanceSpark" height="80"></canvas>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Mobile offcanvas sidebar -->
+  <div class="offcanvas offcanvas-start" tabindex="-1" id="mobileSidebar" aria-labelledby="mobileSidebarLabel">
+    <div class="offcanvas-header ms-auto">
+      <!-- <h5 class="offcanvas-title" id="mobileSidebarLabel">E-store</h5> -->
+      <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+      <div class="brand mb-3 d-flex gap-2 align-items-center">
+        <div class="logo-mark">E</div>
+        <h5 class="m-0"><a href="../index.html" class="brand-link">E-store</a></h5>
+      </div>
+      <nav class="mb-3">
+        <ul class="list-unstyled small">
+          <li class="py-2 active"><a href="index.html" style="text-decoration: none; color: black;">Dashboard</a></li>
+          <li class="py-2"><a href="sales/index.html" style="text-decoration: none; color: black;">Sales</a></li>
+          <li class="py-2"><a href="inventory/index.html" style="text-decoration: none; color: black;">Inventory</a>
+          </li>
+          <li class="py-2"><a href="customers/index.html" style="text-decoration: none; color: black;">Customers</a>
+          </li>
+          <li class="py-2"><a href="reports/index.html" style="text-decoration: none; color: black;">Reports</a></li>
+          <li class="py-2"><a href="settings/index.html" style="text-decoration: none; color: black;">Settings</a></li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+  <script src="dashboard.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    // // Theme colors (match root theme)
+    // const PRIMARY = 'blue';
+
+    // // Sales chart (line)
+    // const salesCtx = document.getElementById('salesChart').getContext('2d');
+    // const salesChart = new Chart(salesCtx, {
+    //   type: 'line',
+    //   data: {
+    //     labels: ['Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat', 'Sun'],
+    //     datasets: [{
+    //       label: 'Sales',
+    //       data: [120000, 150000, 110000, 180000, 160000, 195000, 140000, 150000, 165000, 170000, 180000, 200000],
+    //       borderColor: PRIMARY,
+    //       backgroundColor: 'rgba(107,78,255,0.12)',
+    //       tension: 0.4,
+    //       fill: true,
+    //       pointRadius: 4
+    //     }]
+    //   },
+    //   options: {
+    //     responsive: true,
+    //     maintainAspectRatio: false,
+    //     plugins: { legend: { display: false } },
+    //     scales: { y: { beginAtZero: true, ticks: { callback: v => '₦' + (v / 1000) + 'k' } } },
+    //     interaction: { mode: 'index', intersect: false }
+    //   }
+    // });
+
+    // Pie chart
+    const pieCtx = document.getElementById('pieChart').getContext('2d');
+    const pieChart = new Chart(pieCtx, {
+      type: 'doughnut',
+      data: {
+        labels: ['Shoes', 'Dresses', 'Jeans', 'Sweatshirt', 'Others'],
+        datasets: [{ data: [30, 28.3, 15.2, 14.16, 12.34], backgroundColor: ['#6b4eff', '#00c2a8', '#ffb86b', '#ffd6e0', '#9aa0b4'] }]
+      },
+      options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
+    });
+
+    // // Live balance + sparkline
+    // const balanceEl = document.getElementById('balanceValue');
+    // const balanceTime = document.getElementById('balanceTime');
+    // const sparkCtx = document.getElementById('balanceSpark').getContext('2d');
+
+    // // start with a random balance and populate sparkData
+    // const MIN_BALANCE = 1000;
+    // const MAX_BALANCE = 50000;
+    // let balance = Math.random() * (MAX_BALANCE - MIN_BALANCE) + MIN_BALANCE;
+    // let sparkData = Array.from({ length: 20 }, () => Math.random() * (MAX_BALANCE - MIN_BALANCE) + MIN_BALANCE);
+
+    // const sparkChart = new Chart(sparkCtx, {
+    //   type: 'line',
+    //   data: { labels: sparkData.map((_, i) => i), datasets: [{ data: sparkData, borderColor: PRIMARY, backgroundColor: 'rgba(107,78,255,0.12)', tension: 0.3, fill: true, pointRadius: 0 }] },
+    //   options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { display: false }, y: { display: false } }, elements: { line: { borderWidth: 2 } } }
+    // });
+
+    // function formatUSD(v) { return '$' + v.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }
+
+    // function animateNumber(el, start, end, duration = 700) {
+    //   const startTime = performance.now();
+    //   function frame(now) {
+    //     const t = Math.min(1, (now - startTime) / duration);
+    //     const ease = t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t; // easeInOutQuad approximation
+    //     const value = start + (end - start) * ease;
+    //     el.textContent = formatUSD(value);
+    //     if (t < 1) requestAnimationFrame(frame);
+    //   }
+    //   requestAnimationFrame(frame);
+    // }
+
+    // function setRandomBalanceOnce() {
+    //   // set a single random balance when the page loads
+    //   const prev = 0;
+    //   balance = Math.random() * (MAX_BALANCE - MIN_BALANCE) + MIN_BALANCE;
+    //   const now = new Date();
+    //   animateNumber(balanceEl, prev, balance, 800);
+    //   balanceTime.textContent = now.toLocaleTimeString();
+
+    //   // subtle pulse
+    //   balanceEl.classList.add('pulse');
+    //   setTimeout(() => balanceEl.classList.remove('pulse'), 750);
+
+    //   // populate sparkline with random values around the chosen balance
+    //   sparkData = Array.from({ length: 20 }, () => balance + (Math.random() - 0.5) * (MAX_BALANCE * 0.06));
+    //   sparkChart.data.datasets[0].data = sparkData;
+    //   sparkChart.update();
+    //   // persist balance so profile can read the same value
+    //   try { localStorage.setItem('dashboard_balance', String(balance)); } catch (e) { }
+    // }
+
+    // // set balance once on load
+    // setRandomBalanceOnce();
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,200 @@
+/* Cart page stylesheet (cleaned and aligned to site theme) */
+:root {
+  --primary: #6b4eff;
+  /* main site primary (used across site) */
+  --brand: #583BFF;
+  /* accent used in header links */
+  --muted: #9aa0a6;
+  --bg: #f6f6f6;
+  --text: #111;
+  --card: #ffffff;
+}
+
+* {
+  box-sizing: border-box
+}
+
+body {
+  font-family: 'Poppins', system-ui, 'Segoe UI', Roboto, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  margin: 0;
+}
+
+.cart-root {
+  max-width: 1200px
+}
+
+.back-link {
+  color: var(--muted);
+  text-decoration: none
+}
+
+.cart-title {
+  font-weight: 600;
+  letter-spacing: 0.6px
+}
+
+.card {
+  background: var(--card);
+  border: 0;
+  border-radius: 6px
+}
+
+.product-thumb {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 6px
+}
+
+.cart-item .product-title {
+  font-weight: 500;
+  font-size: 15px !important;
+}
+
+.cart-item .product-sub {
+  margin-top: 2px
+}
+
+.qty-input {
+  width: 48px;
+  text-align: center
+}
+
+/* header/logo */
+.logo-mark {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: var(--brand);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700
+}
+
+.brand-text {
+  font-size: 14px;
+  letter-spacing: 0.6px
+}
+
+/* cart count / badges */
+.cart-count {
+  position: absolute;
+  top: -6px;
+  right: -10px;
+  background: var(--brand);
+  color: #fff;
+  border-radius: 50%;
+  font-size: 11px;
+  padding: 2px 6px
+}
+
+/* buttons: make primary/checkout use site primary color */
+.btn-primary,
+.btn-dark {
+  background: var(--primary);
+  color: #fff;
+  border: 0
+}
+
+.btn-primary:hover,
+.btn-dark:hover {
+  background: #583bff
+}
+
+/* outline buttons keep contrast but use primary accents */
+.btn-outline-secondary {
+  border-color: rgba(0, 0, 0, 0.08);
+  color: var(--primary)
+}
+
+/* small button sizing */
+.btn-sm {
+  padding: .25rem .5rem
+}
+
+/* make link buttons use brand color */
+.btn-link {
+  color: var(--primary);
+  text-decoration: none
+}
+
+.btn-link:hover {
+  color: #583bff
+}
+
+.price {
+  font-weight: 600;
+  font-size: 15px !important;
+}
+
+.animate-up {
+  animation: fadeInUp .28s ease both
+}
+
+.animate-up.delay {
+  animation-delay: .06s
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px)
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0)
+  }
+}
+
+/* totals card */
+.card h6 {
+  font-weight: 600
+}
+
+/* responsive tweaks */
+@media (max-width: 767px) {
+  .brand-text {
+    display: none
+  }
+
+  .cart-root {
+    padding: 0 12px
+  }
+
+  .product-thumb {
+    width: 64px;
+    height: 64px
+  }
+
+  .qty-input {
+    width: 42px
+  }
+}
+
+/* accessibility focus */
+button:focus,
+a:focus,
+input:focus {
+  outline: 2px solid rgba(107, 78, 255, 0.15);
+  outline-offset: 2px
+}
+
+.cart-item:hover {
+  background: rgba(0, 0, 0, 0.02)
+}
+
+.remove-item {
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  font-size: 14px
+}
+
+.remove-item:hover {
+  color: #c33
+}

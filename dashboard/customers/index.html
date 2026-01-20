@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Customers — Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+</head>
+
+<body>
+  <div class="page-root d-flex">
+    <aside class="sidebar bg-light p-4 d-none d-md-block">
+      <div class="brand mb-4 d-flex align-items-center gap-2">
+        <div class="logo-mark">E</div>
+        <h4 class="m-0 fs-4"><a href="../../index.html" class="brand-link">E-store</a></h4>
+      </div>
+      <nav class="mb-3">
+        <ul class="list-unstyled small">
+          <li class="py-2"><a href="../index.html" style="text-decoration: none; color: black;">Dashboard</a></li>
+          <li class="py-2"><a href="../sales/index.html" style="text-decoration: none; color: black;">Sales</a></li>
+          <li class="py-2"><a href="../inventory/index.html" style="text-decoration: none; color: black;">Inventory</a>
+          </li>
+          <li class="py-2 active"><a href="index.html" style="text-decoration: none; color: black;">Customers</a></li>
+          <li class="py-2"><a href="../reports/index.html" style="text-decoration: none; color: black;">Reports</a></li>
+          <li class="py-2"><a href="../settings/index.html" style="text-decoration: none; color: black;">Settings</a>
+          </li>
+        </ul>
+      </nav>
+    </aside>
+    <main class="content flex-fill">
+      <header class="topbar d-flex align-items-center justify-content-between p-3 border-bottom">
+        <div class="d-flex align-items-center gap-3">
+          <button class="btn btn-outline-secondary d-md-none" data-bs-toggle="offcanvas" data-bs-target="#mobileSidebar"
+            aria-controls="mobileSidebar">
+            <i class="bi bi-list"></i>
+          </button>
+          <div class="logo d-flex align-items-center gap-2">
+            <h4 class="m-0">Customers</h4>
+          </div>
+        </div>
+        <div class="d-flex align-items-center gap-2">
+          <div class="me-3 text-end small text-muted">Welcome, <strong id="ownerLabel">Admin</strong></div>
+          <a href="../profile/index.html"
+            class="avatar rounded-circle bg-primary text-white d-flex align-items-center justify-content-center"
+            id="avatarBtn" style="text-decoration: none;">A</a>
+        </div>
+      </header>
+      <section class="container-fluid p-4">
+        <div class="card p-3">
+          <h6>Recent customers</h6>
+          <div class="table-responsive">
+            <table class="table table-borderless small mb-0">
+              <thead class="text-muted">
+                <tr>
+                  <th>Profile</th>
+                  <th>Customer</th>
+                  <th>Email</th>
+                  <th>Orders</th>
+                  <th>Joined</th>
+                </tr>
+              </thead>
+              <tbody id="show">
+
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+  <!-- Mobile offcanvas sidebar -->
+  <div class="offcanvas offcanvas-start" tabindex="-1" id="mobileSidebar" aria-labelledby="mobileSidebarLabel">
+    <div class="offcanvas-header ms-auto">
+      <!-- <h5 class="offcanvas-title" id="mobileSidebarLabel">E-store</h5> -->
+      <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+      <div class="brand mb-3 d-flex gap-2 align-items-center">
+        <div class="logo-mark">E</div>
+        <h5 class="m-0"><a href="../../index.html" class="brand-link">E-store</a></h5>
+      </div>
+      <nav class="mb-3">
+        <ul class="list-unstyled small">
+          <li class="py-2"><a href="../index.html" style="text-decoration: none; color: black;">Dashboard</a></li>
+          <li class="py-2"><a href="../sales/index.html" style="text-decoration: none; color: black;">Sales</a></li>
+          <li class="py-2"><a href="../inventory/index.html" style="text-decoration: none; color: black;">Inventory</a>
+          </li>
+          <li class="py-2 active"><a href="index.html" style="text-decoration: none; color: black;">Customers</a></li>
+          <li class="py-2"><a href="../reports/index.html" style="text-decoration: none; color: black;">Reports</a></li>
+          <li class="py-2"><a href="../settings/index.html" style="text-decoration: none; color: black;">Settings</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyD7RJNXJvCyxJW59ge_30HcpDQrS3SGYCQ",
+      authDomain: "e-store-project-24928.firebaseapp.com",
+      projectId: "e-store-project-24928",
+      storageBucket: "e-store-project-24928.firebasestorage.app",
+      messagingSenderId: "108352256578",
+      appId: "1:108352256578:web:9abfa1487e033c09668bdb"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth();
+
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        console.log(user);
+        show.innerHTML += `
+        <tr>
+          <td><img src="${user.photoURL}" width="30px" style="border-radius: 100%"></td>
+          <td>${user.displayName}</td>
+          <td>${user.email}</td>
+          <td>3</td>
+          <td>${user.metadata.creationTime}</td>
+        </tr>
+      `
+      } else {
+        setTimeout(() => {
+          // window.location.href = 'index.html'
+        }, 1000)
+      }
+    });
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

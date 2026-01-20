@@ -1,0 +1,298 @@
+:root {
+  --primary: #6b4eff;
+  --muted: #f7f7fb;
+  --card-radius: 12px;
+}
+
+* {
+  box-sizing: border-box
+}
+
+body {
+  font-family: 'Poppins', Inter, system-ui, -apple-system, "Segoe UI", Roboto, 'Helvetica Neue', Arial;
+  background: #f8f9fb;
+  color: #222
+}
+
+/* Prevent horizontal overflow on mobile and allow flex children to shrink */
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+.page-root,
+.content,
+main,
+.row {
+  min-width: 0;
+}
+
+.page-root {
+  min-height: 100vh
+}
+
+.sidebar {
+  width: 360px;
+  border-right: 1px solid #eef0f6
+}
+
+.brand-link {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 600
+}
+
+.topbar {
+  background: #fff
+}
+
+.avatar {
+  width: 38px;
+  height: 38px
+}
+
+.balance-card {
+  min-width: 170px;
+  background: #fff;
+  border-radius: 10px
+}
+
+.stat-card {
+  background: #fff;
+  border-radius: 10px
+}
+
+.card {
+  border-radius: 12px
+}
+
+.content {
+  min-height: 100vh
+}
+
+.h4 {
+  font-weight: 600
+}
+
+/* Animation keyframes */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes pop {
+  from {
+    transform: scale(.98);
+    opacity: .8
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1
+  }
+}
+
+@keyframes pulseAnim {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.03);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Apply animation to cards with a slight stagger */
+.card {
+  animation: fadeInUp .45s ease both;
+}
+
+.stat-card {
+  animation-duration: .5s
+}
+
+.stat-card:nth-child(1) {
+  animation-delay: .05s
+}
+
+.stat-card:nth-child(2) {
+  animation-delay: .12s
+}
+
+.stat-card:nth-child(3) {
+  animation-delay: .19s
+}
+
+.stat-card:nth-child(4) {
+  animation-delay: .26s
+}
+
+/* pulse helper used when updating balance */
+.pulse {
+  animation: pulseAnim .65s ease both
+}
+
+
+
+/* transactions rows slide and stagger */
+.table-responsive tbody tr {
+  animation: fadeInUp .42s both;
+}
+
+.table-responsive tbody tr:nth-child(1) {
+  animation-delay: .06s
+}
+
+.table-responsive tbody tr:nth-child(2) {
+  animation-delay: .12s
+}
+
+.table-responsive tbody tr:nth-child(3) {
+  animation-delay: .18s
+}
+
+/* make chart containers responsive */
+#salesChart,
+#pieChart,
+#balanceSpark {
+  width: 100%;
+  height: 100%;
+  display: block
+}
+
+/* make chart containers responsive and prevent stretching */
+canvas {
+  max-width: 100%;
+  display: block;
+}
+
+#salesChart {
+  max-height: 340px;
+  height: 340px;
+}
+
+#pieChart {
+  max-height: 260px;
+  height: 260px;
+}
+
+#balanceSpark {
+  max-height: 90px;
+  height: 90px;
+}
+
+/* Utility chart size classes to prevent unpredictable stretching */
+.chart-large {
+  height: 280px;
+  max-height: 340px;
+}
+
+.chart-medium {
+  height: 220px;
+  max-height: 260px;
+}
+
+.chart-small {
+  height: 90px;
+  max-height: 120px;
+}
+
+/* Ensure canvases inside cards don't force page height */
+.card canvas {
+  width: 100% !important;
+  display: block;
+}
+
+/* Offcanvas tweaks so mobile sidebar matches theme */
+.offcanvas {
+  --bs-offcanvas-width: 280px
+}
+
+/* helper: reduce padding on small screens */
+@media (max-width:575px) {
+  .page-root {
+    padding-bottom: 30px
+  }
+
+  .card {
+    border-radius: 10px
+  }
+
+  .topbar {
+    padding: .6rem
+  }
+}
+
+/* ensure balance card stacks nicely on small screens */
+@media (max-width:767px) {
+  .balance-card {
+    min-width: 120px;
+    padding: 12px
+  }
+}
+
+/* Responsive tweaks */
+@media (max-width:991px) {
+  .sidebar {
+    display: none
+  }
+
+  .balance-card {
+    min-width: 140px
+  }
+}
+
+/* Animations */
+.card {
+  transition: transform .22s cubic-bezier(.2, .9, .3, 1), box-shadow .22s
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px rgba(25, 12, 44, 0.06)
+}
+
+/* small utilities */
+.text-muted {
+  color: #8b90a0
+}
+
+.brand-link a {
+  color: var(--primary)
+}
+
+/* mobile spacing */
+@media (max-width:575px) {
+  .balance-card {
+    text-align: center
+  }
+}
+
+/* charts sizing */
+#salesChart {
+  max-height: 340px
+}
+
+.logo-mark {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background-color: var(--primary);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700
+}
