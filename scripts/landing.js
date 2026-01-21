@@ -92,7 +92,7 @@ async function saveCart() {
     // If not logged in, use localStorage
     localStorage.setItem("cart", JSON.stringify(cart));
   }
-  
+
   if (typeof window.updateCartQuantity === "function") {
     window.updateCartQuantity();
   }
@@ -161,7 +161,7 @@ if (container) {
 
     setTimeout(() => {
       btn.innerHTML = prevHtml;
-    btn.classList.add('btn-purple');
+      btn.classList.add('btn-purple');
       btn.disabled = false;
     }, 600);
   });

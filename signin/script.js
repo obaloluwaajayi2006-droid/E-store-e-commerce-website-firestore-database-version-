@@ -87,7 +87,7 @@ const github = () => {
       if (errorCode === "auth/account-exists-with-different-credential") {
         console.warn("Account exists with another provider. Continuing...");
 
-        
+
         window.location.href = '../index.html';
       } else {
         alert(error.message);

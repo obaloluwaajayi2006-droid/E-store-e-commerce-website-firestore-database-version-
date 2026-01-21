@@ -1,12 +1,12 @@
 import { db, auth } from './config.js';
-import { 
-  collection, 
-  addDoc, 
-  getDocs, 
-  query, 
-  where, 
-  updateDoc, 
-  deleteDoc, 
+import {
+  collection,
+  addDoc,
+  getDocs,
+  query,
+  where,
+  updateDoc,
+  deleteDoc,
   doc,
   setDoc,
   getDoc,
@@ -24,11 +24,11 @@ export const registerUser = async (userData) => {
     // Check if email already exists
     const q = query(usersRef, where('email', '==', userData.email));
     const existingUser = await getDocs(q);
-    
+
     if (!existingUser.empty) {
       throw new Error('Email already registered');
     }
-    
+
     const docRef = await addDoc(usersRef, {
       firstName: userData.firstName,
       lastName: userData.lastName,
@@ -37,7 +37,7 @@ export const registerUser = async (userData) => {
       createdAt: new Date(),
       updatedAt: new Date()
     });
-    
+
     return { id: docRef.id, ...userData };
   } catch (error) {
     console.error('Error registering user:', error);
@@ -51,17 +51,17 @@ export const loginUser = async (email, password) => {
     const usersRef = collection(db, 'users');
     const q = query(usersRef, where('email', '==', email), where('password', '==', password));
     const result = await getDocs(q);
-    
+
     if (result.empty) {
       throw new Error('Invalid email or password');
     }
-    
+
     const user = result.docs[0];
     const userData = { id: user.id, ...user.data() };
-    
+
     // Store user in sessionStorage for current session
     sessionStorage.setItem('user', JSON.stringify(userData));
-    
+
     return userData;
   } catch (error) {
     console.error('Error logging in:', error);
@@ -90,11 +90,11 @@ export const getUserCart = async (userId) => {
     const cartRef = collection(db, 'carts');
     const q = query(cartRef, where('userId', '==', userId));
     const result = await getDocs(q);
-    
+
     if (result.empty) {
       return [];
     }
-    
+
     return result.docs[0].data().items || [];
   } catch (error) {
     console.error('Error fetching cart:', error);
@@ -108,7 +108,7 @@ export const saveUserCart = async (userId, cartItems) => {
     const cartRef = collection(db, 'carts');
     const q = query(cartRef, where('userId', '==', userId));
     const result = await getDocs(q);
-    
+
     if (result.empty) {
       // Create new cart
       await addDoc(cartRef, {
@@ -151,7 +151,7 @@ export const getUserAddresses = async (userId) => {
     const addressesRef = collection(db, 'addresses');
     const q = query(addressesRef, where('userId', '==', userId));
     const result = await getDocs(q);
-    
+
     return result.docs.map(doc => ({ id: doc.id, ...doc.data() }));
   } catch (error) {
     console.error('Error fetching addresses:', error);
@@ -183,7 +183,7 @@ export const saveAddress = async (userId, addressData) => {
       additionalInfo: addressData.additionalInfo,
       createdAt: new Date()
     });
-    
+
     return { id: docRef.id, ...addressData };
   } catch (error) {
     console.error('Error saving address:', error);
@@ -201,7 +201,7 @@ export const getUserOrders = async (userId) => {
     const ordersRef = collection(db, 'orders');
     const q = query(ordersRef, where('userId', '==', userId));
     const result = await getDocs(q);
-    
+
     return result.docs.map(doc => ({ id: doc.id, ...doc.data() }));
   } catch (error) {
     console.error('Error fetching orders:', error);
@@ -221,7 +221,7 @@ export const createOrder = async (userId, orderData) => {
       status: 'completed',
       createdAt: new Date()
     });
-    
+
     return { id: docRef.id, ...orderData };
   } catch (error) {
     console.error('Error creating order:', error);
@@ -234,7 +234,7 @@ export const getAllOrders = async () => {
   try {
     const ordersRef = collection(db, 'orders');
     const result = await getDocs(ordersRef);
-    
+
     return result.docs.map(doc => ({ id: doc.id, ...doc.data() }));
   } catch (error) {
     console.error('Error fetching all orders:', error);
@@ -251,7 +251,7 @@ export const getDashboardSettings = async () => {
   try {
     const settingsRef = doc(db, 'dashboard', 'settings');
     const settingsDoc = await getDoc(settingsRef);
-    
+
     if (!settingsDoc.exists()) {
       return {
         ownerName: 'Admin',
@@ -259,7 +259,7 @@ export const getDashboardSettings = async () => {
         balance: 0
       };
     }
-    
+
     return settingsDoc.data();
   } catch (error) {
     console.error('Error fetching dashboard settings:', error);
@@ -292,7 +292,7 @@ export const onCartChange = (userId, callback) => {
   try {
     const cartRef = collection(db, 'carts');
     const q = query(cartRef, where('userId', '==', userId));
-    
+
     return onSnapshot(q, (snapshot) => {
       if (snapshot.empty) {
         callback([]);
@@ -310,7 +310,7 @@ export const onOrdersChange = (userId, callback) => {
   try {
     const ordersRef = collection(db, 'orders');
     const q = query(ordersRef, where('userId', '==', userId));
-    
+
     return onSnapshot(q, (snapshot) => {
       const orders = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
       callback(orders);

@@ -310,7 +310,7 @@ window.addToCartBtn = (category, index) => {
       btn.setAttribute('title', 'Added to cart');
       btn.setAttribute('aria-pressed', 'true');
 
-      
+
       setTimeout(() => {
         if (!btn || !document.contains(btn)) return;
 
@@ -417,12 +417,12 @@ function renderDelivery() {
   const displayDiv = document.getElementById('displayCity');
   const displayDiv2 = document.getElementById('displayCity2');
 
-  
+
   selectedPickupStation = citySelect.value;
   displayDiv.innerHTML = selectedPickupStation;
   displayDiv2.innerHTML = selectedPickupStation;
 
-  
+
   citySelect.addEventListener('change', () => {
     selectedPickupStation = citySelect.value;
     displayDiv.innerHTML = selectedPickupStation;
@@ -475,7 +475,7 @@ function renderPayment() {
   todayDate2.innerHTML = `${currentDay} ${currentMonthName}`;
   tomDate2.innerHTML = `${dayAfterTomorrowDay} ${dayAfterTomorrowMonth}`;
 
-  
+
   const displayDiv = document.getElementById('displayCity2');
   if (displayDiv) {
     displayDiv.innerHTML = selectedPickupStation;
@@ -522,7 +522,7 @@ document.getElementById("confirmFakePayment").addEventListener("click", async ()
 
       deliveryName.innerHTML = lastAddress.firstName + ' ' + lastAddress.lastName;
       deliveryAddress.innerHTML = lastAddress.address;
-      
+
       const txRef = "TX-" + Math.floor(Math.random() * 999999999);
 
       // Create order in Firestore
@@ -538,9 +538,9 @@ document.getElementById("confirmFakePayment").addEventListener("click", async ()
           additionalInfo: lastAddress.additionalInfo
         }
       };
-      
+
       await createOrder(currentUser.id, newOrder);
-      
+
       // Clear cart
       cart = [];
       await persistCart();
