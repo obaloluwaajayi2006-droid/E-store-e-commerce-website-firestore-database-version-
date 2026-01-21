@@ -1,6 +1,6 @@
-let allUsers = JSON.parse(localStorage.getItem('e-store')) || []
+import { registerUser } from "../firebase/firestore.js";
 
-const createAccount = () => {
+const createAccount = async () => {
   if (firstName.value.trim() === "" || lastName.value.trim() === "" || email.value.trim() === "" || password.value.trim() === "") {
     errorMessage.style.display = "block";
     errorMessage2.style.display = 'none';
@@ -9,38 +9,39 @@ const createAccount = () => {
   } else {
     errorMessage.style.display = "none";
     const userInfo = {
-      name1: firstName.value,
-      name2: lastName.value,
-      mail: email.value,
-      pass: password.value,
-      // confPass: confirmPassword.value
+      firstName: firstName.value,
+      lastName: lastName.value,
+      email: email.value,
+      password: password.value
     }
     let emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     let passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-    const confirmEmail = emailRegex.test(userInfo.mail);
-    const confirmPassword = passwordRegex.test(userInfo.pass);
+    const confirmEmail = emailRegex.test(userInfo.email);
+    const confirmPassword = passwordRegex.test(userInfo.password);
     if (confirmEmail) {
-      const sameEmail = allUsers.find(user => user.mail === userInfo.mail)
-      if (sameEmail) {
-        alert('Accout already exists!');
-        window.location.href = '../signin/index.html';
-      } else {
-        if (confirmPassword) {
-          allUsers.push(userInfo);
-          localStorage.setItem('e-store', JSON.stringify(allUsers));
-          console.log(allUsers);
+      if (confirmPassword) {
+        try {
           btn.innerHTML = `
             <span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span>
             <span role="status">Loading ...</span>
           `;
+          await registerUser(userInfo);
           setTimeout(() => {
             window.location.href = '../signin/index.html';
           }, 2000)
-        } else {
-          errorMessage3.style.display = 'block'
-          errorMessage2.style.display = 'none';
-          errorMessage.style.display = 'none'
+        } catch (error) {
+          if (error.message === 'Email already registered') {
+            alert('Account already exists!');
+            window.location.href = '../signin/index.html';
+          } else {
+            alert('Error creating account: ' + error.message);
+            btn.innerHTML = 'Create Account';
+          }
         }
+      } else {
+        errorMessage3.style.display = 'block'
+        errorMessage2.style.display = 'none';
+        errorMessage.style.display = 'none'
       }
     } else {
       errorMessage2.style.display = 'block';

@@ -4,6 +4,7 @@ import { shirt } from '/data/shirt.js';
 import { jeans } from '/data/jeans.js';
 import { sneakers } from '../data/sneakers.js';
 import { accesories } from '../data/accesories.js';
+import { saveUserCart, getCurrentUser } from '../firebase/firestore.js';
 
 
 sweatshirt.forEach(p => p.category = "sweatshirt");
@@ -68,12 +69,30 @@ randomProducts.forEach(product => {
 
 if (container) container.innerHTML = html;
 
+let cart = [];
+let currentUser = null;
 
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
+// Initialize user and cart
+const initializeCart = () => {
+  currentUser = getCurrentUser();
+};
 
+initializeCart();
 
-function saveCart() {
-  localStorage.setItem("cart", JSON.stringify(cart));
+async function saveCart() {
+  if (currentUser && currentUser.id) {
+    try {
+      await saveUserCart(currentUser.id, cart);
+    } catch (error) {
+      console.warn('Error saving cart to Firestore:', error);
+      // Fallback to localStorage
+      localStorage.setItem("cart", JSON.stringify(cart));
+    }
+  } else {
+    // If not logged in, use localStorage
+    localStorage.setItem("cart", JSON.stringify(cart));
+  }
+  
   if (typeof window.updateCartQuantity === "function") {
     window.updateCartQuantity();
   }

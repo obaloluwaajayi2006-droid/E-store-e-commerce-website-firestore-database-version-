@@ -3,12 +3,24 @@ import { shirt } from '../data/shirt.js';
 import { jeans } from '../data/jeans.js';
 import { sneakers } from '../data/sneakers.js';
 import { accesories } from '../data/accesories.js';
+import { saveUserCart, getCurrentUser, getLastUserAddress, createOrder } from '../firebase/firestore.js';
 
+let cart = [];
+let currentUser = null;
 
-let cart = JSON.parse(localStorage.getItem('cart')) || [];
+let selectedPickupStation = 'null';
 
-let selectedPickupStation = 'null'; 
+// Initialize user and cart
+const initializeApp = async () => {
+  currentUser = getCurrentUser();
+  if (!currentUser) {
+    console.log('No user logged in');
+    cart = [];
+  }
+};
 
+// Call init on page load
+initializeApp();
 
 const monthNames = [
   "January", "February", "March", "April", "May", "June",
@@ -28,9 +40,10 @@ const dayAfterTomorrowMonth = monthNames[dayAfterTomorrow.getMonth()];
 console.log(currentDay, currentMonthName); // Today
 console.log(dayAfterTomorrowDay, dayAfterTomorrowMonth); // Day after tomorrow
 
-
-
-cart = cart.map(item => ({ ...item, quantity: item.quantity || 1 }));
+// Ensure cart items have quantity
+const ensureCartQuantity = () => {
+  cart = cart.map(item => ({ ...item, quantity: item.quantity || 1 }));
+};
 
 
 const updateCartQuantity = () => {
@@ -41,12 +54,34 @@ const updateCartQuantity = () => {
   if (cartCountEl) cartCountEl.textContent = uniqueCount;
 };
 
+// Save cart to Firestore
+const persistCart = async () => {
+  if (currentUser && currentUser.id) {
+    try {
+      await saveUserCart(currentUser.id, cart);
+    } catch (error) {
+      console.warn('Error saving cart to Firestore:', error);
+      // Fallback to localStorage
+      localStorage.setItem('cart', JSON.stringify(cart));
+    }
+  } else {
+    // If not logged in, use localStorage
+    localStorage.setItem('cart', JSON.stringify(cart));
+  }
+};
+
 window.updateCartQuantity = updateCartQuantity;
 updateCartQuantity();
 
 window.addEventListener('cart:updated', () => {
   try {
-    cart = JSON.parse(localStorage.getItem('cart')) || [];
+    // Try to reload from Firestore if user is logged in
+    if (currentUser && currentUser.id) {
+      // Reload cart from Firestore
+      persistCart();
+    } else {
+      cart = JSON.parse(localStorage.getItem('cart')) || [];
+    }
     updateCartQuantity();
     renderCart();
     renderCheckout();
@@ -255,7 +290,7 @@ window.addToCartBtn = (category, index) => {
     cart.push({ ...product, quantity: 1 });
   }
 
-  localStorage.setItem('cart', JSON.stringify(cart));
+  persistCart();
   updateCartQuantity();
   renderCart();
   renderCheckout();
@@ -352,14 +387,14 @@ export function updateTotals() {
 
 window.removeFromCart = (index) => {
   cart.splice(index, 1);
-  localStorage.setItem('cart', JSON.stringify(cart));
+  persistCart();
   renderCart();
   renderCheckout();
 };
 
 window.increaseQty = (index) => {
   cart[index].quantity++;
-  localStorage.setItem('cart', JSON.stringify(cart));
+  persistCart();
   renderCart();
   renderCheckout();
 };
@@ -367,7 +402,7 @@ window.increaseQty = (index) => {
 window.decreaseQty = (index) => {
   if (cart[index].quantity > 1) {
     cart[index].quantity--;
-    localStorage.setItem('cart', JSON.stringify(cart));
+    persistCart();
     renderCart();
     renderCheckout();
   }
@@ -468,40 +503,56 @@ document.getElementById("cancelFakePayment").addEventListener("click", () => {
 })
 
 
-document.getElementById("confirmFakePayment").addEventListener("click", () => {
+document.getElementById("confirmFakePayment").addEventListener("click", async () => {
   document.getElementById("confirmFakePayment").innerText = "Processing ...";
   document.getElementById("confirmFakePayment").disabled = "true";
 
-  setTimeout(() => {
-    let orders = JSON.parse(localStorage.getItem("orders")) || []
+  setTimeout(async () => {
+    try {
+      if (!currentUser || !currentUser.id) {
+        alert('User not logged in');
+        return;
+      }
 
-    let addressData = JSON.parse(localStorage.getItem('addressData')) || [];
-    const lastAdress = addressData[addressData.length - 1];
-    console.log(lastAdress.fName, lastAdress.lName)
+      const lastAddress = await getLastUserAddress(currentUser.id);
+      if (!lastAddress) {
+        alert('Address not found');
+        return;
+      }
 
-    deliveryName.innerHTML = lastAdress.fName + ' ' + lastAdress.lName;
-    deliveryAddress.innerHTML = lastAdress.add;
-    
-    const txRef = "TX-" + Math.floor(Math.random() * 999999999);
+      deliveryName.innerHTML = lastAddress.firstName + ' ' + lastAddress.lastName;
+      deliveryAddress.innerHTML = lastAddress.address;
+      
+      const txRef = "TX-" + Math.floor(Math.random() * 999999999);
 
-    // Save order
-    const newOrder = {
-      name: lastAdress.fName + ' ' + lastAdress.lName,
-      items: cart,
-      totalPrice: Number(getTotalPrice()),
-      reference: txRef,
-      date: new Date().toLocaleDateString()
-    };
-    orders.push(newOrder)
-    localStorage.setItem("orders", JSON.stringify(orders));
+      // Create order in Firestore
+      const newOrder = {
+        items: cart,
+        totalPrice: Number(getTotalPrice()),
+        reference: txRef,
+        shippingAddress: {
+          firstName: lastAddress.firstName,
+          lastName: lastAddress.lastName,
+          phone: lastAddress.phone,
+          address: lastAddress.address,
+          additionalInfo: lastAddress.additionalInfo
+        }
+      };
+      
+      await createOrder(currentUser.id, newOrder);
+      
+      // Clear cart
+      cart = [];
+      await persistCart();
+      if (window.updateCartQuantity) updateCartQuantity();
 
-    
-    cart = [];
-    localStorage.setItem("cart", JSON.stringify(cart));
-    if (window.updateCartQuantity) updateCartQuantity();
-
-    
-    window.location.href = "/checkout/payment/success.html";
+      window.location.href = "/checkout/payment/success.html";
+    } catch (error) {
+      console.error('Error processing payment:', error);
+      alert('Error processing payment: ' + error.message);
+      document.getElementById("confirmFakePayment").innerText = "Complete Payment";
+      document.getElementById("confirmFakePayment").disabled = false;
+    }
   }, 2000);
 });
 window.fakePayButton = fakePayButton;

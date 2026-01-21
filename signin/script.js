@@ -1,33 +1,32 @@
-let fetched = JSON.parse(localStorage.getItem('e-store'));
-console.log(fetched);
+import { loginUser } from "../firebase/firestore.js";
 
-const signIn = () => {
-  // alert('hello');
+let fetched = {};
+
+const signIn = async () => {
   if (email.value.trim() === '' || password.value.trim() === '') {
     errorMessage.style.display = "block";
     errorMessage2.style.display = 'none';
   } else {
     errorMessage.style.display = 'none'
-    const signinDetails = {
-      mail: email.value,
-      pass: password.value
-    }
-    const found = fetched.find(user => user.mail === signinDetails.mail);
-    if (found) {
-      console.log('go to dashboard');
-      localStorage.setItem('user', JSON.stringify(signinDetails));
-      console.log(signinDetails);
+    try {
       btn.innerHTML = `
             <span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span>
             <span role="status">Loading ...</span>
           `
+      const signinDetails = {
+        email: email.value,
+        password: password.value
+      }
+      const user = await loginUser(signinDetails.email, signinDetails.password);
+      console.log('User logged in:', user);
       setTimeout(() => {
         window.location.href = '../index.html';
       }, 2000)
-    } else {
+    } catch (error) {
       errorMessage2.style.display = 'block';
       errorMessage.style.display = 'none';
-      window.location.href = '../signup/index.html';
+      btn.innerHTML = 'Sign In';
+      console.error('Login error:', error);
     }
   }
 }
