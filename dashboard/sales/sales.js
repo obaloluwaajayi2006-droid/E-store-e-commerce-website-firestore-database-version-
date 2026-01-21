@@ -21,8 +21,8 @@ const displaySalesData = () => {
   let salesHTML = '';
 
   orders.forEach((sales, index) => {
-    const dateStr = sales.createdAt?.toDate?.()?.toLocaleDateString?.() || 
-                    (typeof sales.createdAt === 'string' ? sales.createdAt : new Date().toLocaleDateString());
+    const dateStr = sales.createdAt?.toDate?.()?.toLocaleDateString?.() ||
+      (typeof sales.createdAt === 'string' ? sales.createdAt : new Date().toLocaleDateString());
     salesHTML += `
       <tr>
         <td>${index + 1}</td>
@@ -103,13 +103,13 @@ const displayChart = () => {
       }]
     },
     options: {
-    responsive: true,
-    scales: {
-      y: {
-        beginAtZero: true
+      responsive: true,
+      scales: {
+        y: {
+          beginAtZero: true
+        }
       }
     }
-  }
   });
 };
 

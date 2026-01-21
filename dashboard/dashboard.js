@@ -25,8 +25,8 @@ const displayDashboardData = () => {
   // DISPLAY RECENT ORDERS
   let recentHTML = "";
   recentOrders.forEach((sales, index) => {
-    const dateStr = sales.createdAt?.toDate?.()?.toLocaleDateString?.() || 
-                    (typeof sales.createdAt === 'string' ? sales.createdAt : new Date().toLocaleDateString());
+    const dateStr = sales.createdAt?.toDate?.()?.toLocaleDateString?.() ||
+      (typeof sales.createdAt === 'string' ? sales.createdAt : new Date().toLocaleDateString());
     recentHTML += `
       <tr>
         <td>${index + 1}</td>
